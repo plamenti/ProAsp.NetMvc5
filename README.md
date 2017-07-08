@@ -1,0 +1,1 @@
+These are practice exercises for Pro ASP.NET MVC 5
