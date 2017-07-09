@@ -22,7 +22,33 @@
         </tr>
         <tr>
             <td>Stock Level</td>
-            <td>@ViewBag.ProductCount</td>
+            <td>
+                @*@switch ((int)ViewBag.ProductCount)
+                {
+                    case 0:
+                        @: Out of stock
+                        break;
+                    case 1:
+                        <b>Low Stock (@ViewBag.ProductCount)</b>
+                        break;
+                    default:
+                        @ViewBag.ProductCount
+                        break;
+                }*@
+
+                @if(ViewBag.ProductCount == 0)
+                {
+                    @: Out of stock
+                }
+                else if(ViewBag.ProductCount == 1)
+                {
+                    <b>Low Stock (@ViewBag.ProductCount)</b>
+                }
+                else
+                {
+                    @ViewBag.ProductCount
+                }
+            </td>
         </tr>
     </tbody>
 </table>
