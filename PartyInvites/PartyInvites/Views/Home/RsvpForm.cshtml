@@ -8,21 +8,39 @@
 
 <html>
 <head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width" />
     <link href="~/Content/Styles.css" rel="stylesheet" />
     <title>RsvpForm</title>
 </head>
 <body>
-    @using (Html.BeginForm())
-    {
-        @Html.ValidationSummary()
-        <p>Your name: @Html.TextBoxFor(x => x.Name)</p>
-        <p>Your email: @Html.TextBoxFor(x => x.Email)</p>
-        <p>Your phone: @Html.TextBoxFor(x => x.Phone)</p>
+    <div class="panel panel-success">
+        <div class="panel-heading text-center">
+            <h4>RSVP</h4>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary()
 
-        <p>
-            Will you attend?
-            @Html.DropDownListFor(x => x.WillAttend, new[]
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Name, "Your name:")
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Email, "Your email:")
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Phone, "Your phone:")
+                    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.WillAttend, "Will you attend?")
+
+                    @Html.DropDownListFor(x => x.WillAttend,
+                    new[]
        {
             new SelectListItem()
             {
@@ -35,9 +53,14 @@
                 Value = bool.FalseString
             }
        },
-       "Choose an option!")
-        </p>
-        <input type="submit" value="Submit RSVP"/>
-    }
+       "Choose an option!", new { @class="form-control"})
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Submit RSVP" class="btn btn-success" />
+                </div>
+            }
+        </div>
+    </div>
 </body>
+
 </html>
