@@ -8,14 +8,14 @@ namespace EssentialTools.Models
 
         public ShoppingCart(LinqValueCalculator calcParam)
         {
-            this.calc = calcParam;
+            calc = calcParam;
         }
 
         public IEnumerable<Product> Products { get; set; }
 
         public decimal CalculateProductTotal()
         {
-            return this.calc.ValueProducts(Products);
+            return calc.ValueProducts(Products);
         }
     }
 }
