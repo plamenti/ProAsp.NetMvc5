@@ -29,9 +29,7 @@ namespace EssentialTools.Infrastructure
         private void AppBindings()
         {
             kernel.Bind<IValueCalculator>().To<LinqValueCalculator>();
-            kernel.Bind<IDiscountHelper>().To<DefaultDiscountHelper>()
-                .WithPropertyValue("DiscountSize", 50M)
-                .WithPropertyValue("DelimeterSize", 100M);
+            kernel.Bind<IDiscountHelper>().To<DefaultDiscountHelper>().WithConstructorArgument("discountParam", 50M);
         }
     }
 }
