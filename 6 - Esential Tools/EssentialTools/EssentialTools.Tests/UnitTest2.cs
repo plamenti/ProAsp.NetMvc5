@@ -59,13 +59,18 @@ namespace EssentialTools.Tests
         {
             // arrange
             Mock<IDiscountHelper> mock = new Mock<IDiscountHelper>();
-            mock.Setup(m => m.ApplyDiscount(It.IsAny<decimal>())).Returns<decimal>(total => total);
-            mock.Setup(m => m.ApplyDiscount(It.Is<decimal>(v => v < 0))).Throws<System.ArgumentOutOfRangeException>();
-            mock.Setup(m => m.ApplyDiscount(It.Is<decimal>(v => v > 100))).Returns<decimal>(total => total * 0.9M);
+            mock.Setup(m => m.ApplyDiscount(It.IsAny<decimal>()))
+                .Returns<decimal>(total => total);
+            mock.Setup(m => m.ApplyDiscount(It.Is<decimal>(v => v < 0)))
+                .Throws<System.ArgumentOutOfRangeException>();
+            mock.Setup(m => m.ApplyDiscount(It.Is<decimal>(v => v > 100)))
+                .Returns<decimal>(total => total * 0.9M);
 
             //Both are equivalent
-            mock.Setup(m => m.ApplyDiscount(It.Is<decimal>(v => v >= 10 && v <= 100))).Returns<decimal>(total => total - 5);
-            mock.Setup(m => m.ApplyDiscount(It.IsInRange<decimal>(10, 100, Range.Inclusive))).Returns<decimal>(total => total - 5);
+            mock.Setup(m => m.ApplyDiscount(It.Is<decimal>(v => v >= 10 && v <= 100)))
+                .Returns<decimal>(total => total - 5);
+            mock.Setup(m => m.ApplyDiscount(It.IsInRange<decimal>(10, 100, Range.Inclusive)))
+                .Returns<decimal>(total => total - 5);
 
             var target = new LinqValueCalculator(mock.Object);
 
