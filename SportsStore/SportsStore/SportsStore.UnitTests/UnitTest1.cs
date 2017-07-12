@@ -1,12 +1,14 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Controllers;
-using System.Collections;
+using SportsStore.WebUI.HtmlHelpers;
+using SportsStore.WebUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace SportsStore.UnitTests
 {
@@ -39,6 +41,30 @@ namespace SportsStore.UnitTests
             Assert.IsTrue(prodArray.Length == expectedProductsCount, string.Format("Products count in page {0} should be {1}. It is {2}.", page, expectedProductsCount, prodArray.Count()));
             Assert.AreEqual(prodArray[0].Name, "P4");
             Assert.AreEqual(prodArray[1].Name, "P5");
+        }
+
+        [TestMethod]
+        public void Can_Generate_Page_Links()
+        {
+            // Arrange - define an HTML helper - we need to do this in order to apply teh extension method
+            HtmlHelper myHelper = null;
+
+            // Create PagingInfo data
+            PagingInfo pagingInfo = new PagingInfo
+            {
+                CurrentPage = 2,
+                TotalItems = 28,
+                ItemsPerPage = 10
+            };
+
+            // Set up the delegate using a lambda expession
+            Func<int, string> pageUrlDelegate = i => "Page" + i; // delegate (int i) { return "Page" + i; }; 
+
+            // Act
+            MvcHtmlString result = myHelper.PageLinks(pagingInfo, pageUrlDelegate);
+
+            // Assert
+            Assert.AreEqual(@"<a class=""btn btn-default"" href=""Page1"">1</a><a class=""btn btn-default btn-primary selected"" href=""Page2"">2</a><a class=""btn btn-default"" href=""Page3"">3</a>", result.ToString());
         }
     }
 }
