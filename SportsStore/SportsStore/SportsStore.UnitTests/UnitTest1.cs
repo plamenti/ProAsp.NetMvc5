@@ -34,8 +34,8 @@ namespace SportsStore.UnitTests
             int expectedProductsCount = 2;
 
             // Act
-            IEnumerable<Product> result = (IEnumerable<Product>)controller.List(page).Model;
-            Product[] prodArray = result.ToArray();
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
+            Product[] prodArray = result.Products.ToArray();
 
             // Assert
             Assert.IsTrue(prodArray.Length == expectedProductsCount, string.Format("Products count in page {0} should be {1}. It is {2}.", page, expectedProductsCount, prodArray.Count()));
@@ -65,6 +65,35 @@ namespace SportsStore.UnitTests
 
             // Assert
             Assert.AreEqual(@"<a class=""btn btn-default"" href=""Page1"">1</a><a class=""btn btn-default btn-primary selected"" href=""Page2"">2</a><a class=""btn btn-default"" href=""Page3"">3</a>", result.ToString());
+        }
+
+        [TestMethod]
+        public void Can_Send_Pagination_View_Model()
+        {
+            // Arrange
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(
+                new Product[]
+                {
+                    new Product {ProductID = 1, Name = "P1" },
+                    new Product {ProductID = 2, Name = "P2" },
+                    new Product {ProductID = 3, Name = "P3" },
+                    new Product {ProductID = 4, Name = "P4" },
+                    new Product {ProductID = 5, Name = "P5" }
+                });
+
+            ProductController controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+
+            // Act 
+            ProductsListViewModel result = (ProductsListViewModel) controller.List(2).Model;
+            PagingInfo pagingInfo = result.PagingInfo;
+
+            // Assert
+            Assert.AreEqual(2, pagingInfo.CurrentPage);
+            Assert.AreEqual(3, pagingInfo.ItemsPerPage);
+            Assert.AreEqual(5, pagingInfo.TotalItems);
+            Assert.AreEqual(2, pagingInfo.TotalPages);
         }
     }
 }
