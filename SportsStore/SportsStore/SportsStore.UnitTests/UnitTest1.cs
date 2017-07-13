@@ -95,5 +95,37 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(5, pagingInfo.TotalItems);
             Assert.AreEqual(2, pagingInfo.TotalPages);
         }
+
+        [TestMethod]
+        public void Can_Filter_Products()
+        {
+            // Arrange
+            // create the mock repository
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(
+                new Product[] 
+                {
+                    new Product {ProductID = 1, Name = "P1", Category = "Cat1" },
+                    new Product {ProductID = 2, Name = "P2", Category = "Cat2" },
+                    new Product {ProductID = 3, Name = "P3", Category = "Cat1" },
+                    new Product {ProductID = 4, Name = "P4", Category = "Cat2" },
+                    new Product {ProductID = 5, Name = "P5", Category = "Cat3" },
+                });
+
+            // create a controller and make te page size 3 items
+            ProductController controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+            string category = "Cat2";
+
+            // Action
+            Product[] result = ((ProductsListViewModel)controller.List(category, 1).Model).Products.ToArray();
+
+            // Assert
+            Assert.AreEqual(2, result.Length, string.Format("Wrong count of products with category {0}", category));
+            Assert.IsTrue(result[0].Name == "P2", string.Format("Product name should be P2, it is {0}", result[0].Name));
+            Assert.IsTrue(result[0].Category == "Cat2", string.Format("Product name should be Cat2, it is {0}", result[0].Category));
+            Assert.IsTrue(result[1].Name == "P4", string.Format("Product name should be P4, it is {0}", result[1].Name));
+            Assert.IsTrue(result[1].Category == "Cat2", string.Format("Product name should be Cat2, it is {0}", result[1].Category));
+        }
     }
 }
