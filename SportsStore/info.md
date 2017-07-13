@@ -9,3 +9,7 @@
 |SportsStore.Domain|None|System.ComponentModel.DataAnnotations|
 |SportsStore.WebUI|SportsStore.Domain|None|
 |SportsStore.UnitTests|SportsStore.Domain SportsStore.WebUI|System.Web, Microsoft.CSharp|
+
+Shopping Cart
+
+
