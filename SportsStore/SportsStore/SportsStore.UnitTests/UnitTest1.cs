@@ -86,7 +86,7 @@ namespace SportsStore.UnitTests
             controller.PageSize = 3;
 
             // Act 
-            ProductsListViewModel result = (ProductsListViewModel) controller.List(null, 2).Model;
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(null, 2).Model;
             PagingInfo pagingInfo = result.PagingInfo;
 
             // Assert
@@ -103,7 +103,7 @@ namespace SportsStore.UnitTests
             // create the mock repository
             Mock<IProductRepository> mock = new Mock<IProductRepository>();
             mock.Setup(m => m.Products).Returns(
-                new Product[] 
+                new Product[]
                 {
                     new Product {ProductID = 1, Name = "P1", Category = "Cat1" },
                     new Product {ProductID = 2, Name = "P2", Category = "Cat2" },
@@ -135,7 +135,7 @@ namespace SportsStore.UnitTests
             // creae the mock repository
             Mock<IProductRepository> mock = new Mock<IProductRepository>();
             mock.Setup(m => m.Products).Returns(
-                new Product[] 
+                new Product[]
                 {
                     new Product {ProductID = 1, Name = "P1", Category = "Apples" },
                     new Product {ProductID = 2, Name = "P2", Category = "Apples" },
@@ -164,7 +164,7 @@ namespace SportsStore.UnitTests
             // create a mock repository
             Mock<IProductRepository> mock = new Mock<IProductRepository>();
             mock.Setup(m => m.Products).Returns(
-                new Product[] 
+                new Product[]
             {
                 new Product {ProductID = 1, Name = "P1", Category = "Apples" },
                 new Product {ProductID = 4, Name = "P2", Category = "Oranges" }
@@ -181,6 +181,39 @@ namespace SportsStore.UnitTests
 
             // Assert
             Assert.AreEqual(categoryToSelect, result, "Wrong selected category");
+        }
+
+        [TestMethod]
+        public void Generate_Specfic_Product_Count()
+        {
+            // Arrange
+            // create the mock repository
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product {ProductID = 1, Name = "P1", Category = "Cat1" },
+                new Product {ProductID = 2, Name = "P2", Category = "Cat2" },
+                new Product {ProductID = 3, Name = "P3", Category = "Cat1" },
+                new Product {ProductID = 4, Name = "P4", Category = "Cat2" },
+                new Product {ProductID = 5, Name = "P5", Category = "Cat3" },
+            });
+
+            // create a controller and make teh page size 3 items
+            ProductController target = new ProductController(mock.Object);
+            target.PageSize = 3;
+
+            // Act
+            // set up the product counts for different categories
+            int res1 = ((ProductsListViewModel)target.List("Cat1").Model).PagingInfo.TotalItems;
+            int res2 = ((ProductsListViewModel)target.List("Cat2").Model).PagingInfo.TotalItems;
+            int res3 = ((ProductsListViewModel)target.List("Cat3").Model).PagingInfo.TotalItems;
+            int resAll = ((ProductsListViewModel)target.List(null).Model).PagingInfo.TotalItems;
+
+            // Assert
+            Assert.AreEqual(2, res1, string.Format("Wrong first category. Expected: {0}", 2));
+            Assert.AreEqual(2, res2, string.Format("Wrong second category. Expected: {0}", 2));
+            Assert.AreEqual(1, res3, string.Format("Wrong third category. Expected: {0}", 1));
+            Assert.AreEqual(5, resAll, string.Format("Wrong all categories. Expected: {0}", 5));
         }
     }
 }
