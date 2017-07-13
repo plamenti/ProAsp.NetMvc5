@@ -18,24 +18,37 @@ namespace SportsStore.Domain.Entities
             }
         }
 
-        public void AddItem(Product product, int qantity)
+        public void AddItem(Product product, int quantity)
         {
-            throw new NotImplementedException();
+            CartLine line = Lines.Where(p => p.Product.ProductID == product.ProductID).FirstOrDefault();
+            if (line == null)
+            {
+                lineCollection.Add(
+                    new CartLine
+                    {
+                        Product = product,
+                        Quantity = quantity
+                    });
+            }
+            else
+            {
+                line.Quantity += quantity;
+            }
         }
 
         public void RemoveLine(Product product)
         {
-            throw new NotImplementedException();
+            lineCollection.RemoveAll(p => p.Product.ProductID == product.ProductID);
         }
 
         public decimal ComputeTotalValue()
         {
-            throw new NotImplementedException();
+            return lineCollection.Sum(p => p.Product.Price * p.Quantity);
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            lineCollection.Clear();
         }
     }
 }
