@@ -207,5 +207,35 @@ namespace SportsStore.UnitTests
             Assert.AreSame(cart, result.Cart);
             Assert.AreEqual("myUrl", result.ReturnUrl);
         }
+
+        [TestMethod]
+        public void Cannot_Checkout_Empty_Cart()
+        {
+            // Arrange
+            // create a mock order processor
+            Mock<IOrderProcessor> mock = new Mock<IOrderProcessor>();
+
+            // create an empty cart
+            Cart cart = new Cart();
+
+            // create a shipping details
+            ShippingDetails shippingDetails = new ShippingDetails();
+
+            // create an instance of the controller
+            CartController target = new CartController(null, mock.Object);
+
+            // Act
+            ViewResult result = target.CheckOut(cart, shippingDetails);
+
+            // Assert 
+            // check that the order hasn't been passed to the processor
+            mock.Verify(m => m.ProcessOrder(It.IsAny<Cart>(), It.IsAny<ShippingDetails>()), Times.Never());
+
+            // check that the method is returning the default view
+            Assert.AreEqual("", result.ViewName);
+
+            // check that I am passing an invalid model to the view
+            Assert.AreEqual(false, result.ViewData.ModelState.IsValid);
+        }
     }
 }
