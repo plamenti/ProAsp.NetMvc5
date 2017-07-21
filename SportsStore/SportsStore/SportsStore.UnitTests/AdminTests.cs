@@ -5,6 +5,7 @@ using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Controllers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace SportsStore.UnitTests
 {
@@ -85,6 +86,62 @@ namespace SportsStore.UnitTests
 
             // Assert
             Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void Can_Save_Valid_Changes()
+        {
+            // Arrange
+            // create mock repository
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+
+            // create the controler
+            AdminController target = new AdminController(mock.Object);
+
+            // create a product
+            Product product = new Product
+            {
+                Name = "Test"
+            };
+
+            // Act
+            // try to save the product
+            ActionResult result = target.Edit(product);
+
+            // Assert
+            // check that the repository was caleld
+            mock.Verify(m => m.SaveProduct(product));
+
+            // check the mehod result type
+            Assert.IsNotInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void Cannot_Save_Invalid_Changes()
+        {
+            // Arrange
+            // create a mock repository
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+
+            // create the controller
+            AdminController target = new AdminController(mock.Object);
+
+            // create a product
+            Product product = new Product { Name = "Test" };
+
+            // add a error to the model state
+            target.ModelState.AddModelError("Error", "Error");
+
+            // Act
+            // try to save the product
+            ActionResult result = target.Edit(product);
+
+            // Assert
+            // check that the repository was nto called
+            mock.Verify(m => m.SaveProduct(It.IsAny<Product>()), Times.Never());
+
+            // check teh method result type
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
     }
 }
