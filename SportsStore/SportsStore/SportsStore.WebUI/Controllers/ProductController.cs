@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Linq;
 using SportsStore.WebUI.Models;
+using SportsStore.Domain.Entities;
 
 namespace SportsStore.WebUI.Controllers
 {
@@ -39,6 +40,21 @@ namespace SportsStore.WebUI.Controllers
             //    .Skip((page - 1) * PageSize)
             //    .Take(PageSize)
             //    );
+        }
+
+        public FileContentResult GetImage(int productId)
+        {
+            Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
+
+            // TODO: Check if here should be added check for product.ImageData != null
+            if(product != null)
+            {
+                return File(product.ImageData, product.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
