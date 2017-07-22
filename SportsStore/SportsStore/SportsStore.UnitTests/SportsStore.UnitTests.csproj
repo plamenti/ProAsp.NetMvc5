@@ -111,6 +111,7 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="CartTests.cs" />
     <Compile Include="AdminTests.cs" />
+    <Compile Include="AdminSecurityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
