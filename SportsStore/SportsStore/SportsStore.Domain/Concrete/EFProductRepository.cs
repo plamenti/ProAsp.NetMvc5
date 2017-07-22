@@ -17,6 +17,18 @@ namespace SportsStore.Domain.Concrete
             }
         }
 
+        public Product DeleteProduct(int productID)
+        {
+            Product dbEntry = context.Products.Find(productID);
+            if(dbEntry != null)
+            {
+                context.Products.Remove(dbEntry);
+                context.SaveChanges();
+            }
+
+            return dbEntry;
+        }
+
         public void SaveProduct(Product product)
         {
             if(product.ProductID == 0)
@@ -25,13 +37,13 @@ namespace SportsStore.Domain.Concrete
             }
             else
             {
-                Product dbEntity = context.Products.Find(product.ProductID);
-                if(dbEntity != null)
+                Product dbEntry = context.Products.Find(product.ProductID);
+                if(dbEntry != null)
                 {
-                    dbEntity.Name = product.Name;
-                    dbEntity.Description = product.Description;
-                    dbEntity.Price = product.Price;
-                    dbEntity.Category = product.Category;
+                    dbEntry.Name = product.Name;
+                    dbEntry.Description = product.Description;
+                    dbEntry.Price = product.Price;
+                    dbEntry.Category = product.Category;
                 }
             }
 
