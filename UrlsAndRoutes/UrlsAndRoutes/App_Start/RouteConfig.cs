@@ -13,7 +13,7 @@ namespace UrlsAndRoutes
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("MyRoute", "{controller}/{action}");
+            routes.MapRoute("MyRoute", "{controller}/{action}/{id}", new { controller="Home", action = "Index", id=UrlParameter.Optional});
 
             //routes.MapRoute(
             //    name: "Default",

@@ -18,7 +18,7 @@ namespace UrlsAndRoutes.Controllers
             ViewBag.Controller = "Customer";
             ViewBag.Action = "List";
 
-            return View("ActionNamen");
+            return View("ActionName");
         }
     }
 }

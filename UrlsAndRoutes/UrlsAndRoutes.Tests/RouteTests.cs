@@ -13,17 +13,7 @@ namespace UrlsAndRoutes.Tests
         [TestMethod]
         public void TestIncommingRoutes()
         {
-            // check for teh URL that is hoped for
-            TestRouteMatch("~/Admin/Index", "Admin", "Index");
-
-            // check that teh values are being obtained from the segments
-            TestRouteMatch("~/One/Two", "One", "Two");
-
-            // check that too many segments fail to match
-            TestRouteFail("~/Admin/Index/Segment");
-
-            // check that too few segments fail to match
-            TestRouteFail("~/Admin");
+            TestRouteMatch("~/", "Home", "Index");
         }
 
         private HttpContextBase CreateHttpContext(string targetUrl = null, string httpMethod = "GET")
