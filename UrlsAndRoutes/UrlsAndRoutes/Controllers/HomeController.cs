@@ -30,7 +30,7 @@ namespace UrlsAndRoutes.Controllers
 
             // do something with URLs...
 
-            return RedirectToAction("Index");
+            return RedirectToRoute(new { controller = "Home", action = "Index", id = "MyId" });
         }
     }
 }
