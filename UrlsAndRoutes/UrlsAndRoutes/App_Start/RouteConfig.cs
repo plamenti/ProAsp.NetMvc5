@@ -16,6 +16,8 @@ namespace UrlsAndRoutes
 
             routes.RouteExistingFiles = true;
 
+            routes.MapRoute("DiskFile", "Content/StaticContent.html", new { controller = "Customer", action = "List" });
+
             //routes.Add(new LegacyRoute("~/articles/Windows_3.1_Overview.html", "~/old/.NET_1.0_Class_Library"));
 
             routes.MapRoute("MyRoute", "{controller}/{action}/{id}", new { controller="Home", action = "Index", id=UrlParameter.Optional}, new[] { "UrlsAndRoutes.Controllers"});
