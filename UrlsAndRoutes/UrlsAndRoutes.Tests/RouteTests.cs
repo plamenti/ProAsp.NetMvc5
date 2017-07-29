@@ -10,12 +10,6 @@ namespace UrlsAndRoutes.Tests
     [TestClass]
     public class RouteTests
     {
-        [TestMethod]
-        public void TestIncommingRoutes()
-        {
-            TestRouteMatch("~/", "Home", "Index");
-        }
-
         private HttpContextBase CreateHttpContext(string targetUrl = null, string httpMethod = "GET")
         {
             // create te mock request
