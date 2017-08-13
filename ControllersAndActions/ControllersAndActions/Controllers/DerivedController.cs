@@ -15,5 +15,17 @@ namespace ControllersAndActions.Controllers
 
             return View("MyView");
         }
+
+        public void ProduceOutput()
+        {
+            if(Server.MachineName == "LENOVO")
+            {
+                Response.Redirect("Basci/Index");
+            }
+            else
+            {
+                Response.Write("Controller: Derived, Action: ProduceOutput");
+            }
+        }
     }
 }
