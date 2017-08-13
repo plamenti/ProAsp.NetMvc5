@@ -17,19 +17,25 @@ namespace ControllersAndActions.Controllers
             return View("MyView");
         }
 
+        //public ActionResult ProduceOutput()
+        //{
+        //    if (Server.MachineName == "LENOVO")
+        //    {
+        //        //Response.Redirect("/Basic/Index");
+        //        return new CustomRedirectResult { Url = "/Basic/Index" };
+        //    }
+        //    else
+        //    {
+        //        Response.Write("Controller: Derived, Action: ProduceOutput");
+
+        //        return null;
+        //    }
+        //}
+
         public ActionResult ProduceOutput()
         {
-            if(Server.MachineName == "LENOVO")
-            {
-                //Response.Redirect("Basic/Index");
-                return new CustomRedirectResult { Url = "Basic/Index" };
-            }
-            else
-            {
-                Response.Write("Controller: Derived, Action: ProduceOutput");
-
-                return null;
-            }
+            //return new RedirectResult("/Basic/Index");
+            return Redirect("/Basic/Index");
         }
     }
 }
