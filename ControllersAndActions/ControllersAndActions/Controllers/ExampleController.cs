@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 namespace ControllersAndActions.Controllers
 {
@@ -7,7 +8,8 @@ namespace ControllersAndActions.Controllers
         // GET: Example
         public ViewResult Index()
         {
-            return View("Homepage");
+            DateTime date = DateTime.Now;
+            return View(date);
         }
     }
 }
